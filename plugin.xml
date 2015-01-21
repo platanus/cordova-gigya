@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    id="us.platan.gigya"
-    version="1.0.3">
+<plugin id="us.platan.gigya" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>CordovaGigya</name>
     <description>Gigya Plugin</description>
     <license>Apache 2.0</license>
@@ -10,8 +8,8 @@
     <repo>https://github.com/driftyco/ionic-plugins-keyboard.git</repo>
     <issue>https://github.com/driftyco/ionic-plugins-keyboard/issues</issue>
 
-  <js-module src="www/gigya.js" name="gigya">
-    <clobbers target="cordova.plugins.gigya" />
+  <js-module name="CordovaGigya" src="www/CordovaGigya.js">
+    <clobbers target="cordova.plugins.CordovaGigya" />
   </js-module>
 
   <!-- android -->
@@ -51,6 +49,8 @@
     </config-file>
 
     <source-file src="src/android/CordovaGigya.java" target-dir="src/us/platan/gigya" />
+    <source-file src="src/android/gigya-sdk-3.1.2.jar" target-dir="libs" />
+
   </platform>
 
     <!-- ios
