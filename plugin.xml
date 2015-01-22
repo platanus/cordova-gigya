@@ -53,18 +53,33 @@
 
   </platform>
 
-    <!-- ios
-    <platform name="ios">
-        <config-file target="config.xml" parent="/*">
-            <feature name="Keyboard">
-                <param name="ios-package" value="IonicKeyboard" onload="true" />
-            </feature>
-        </config-file>
+  <!-- ios -->
+  <platform name="ios">
 
-        <header-file src="src/ios/IonicKeyboard.h" />
-        <source-file src="src/ios/IonicKeyboard.m" />
-        <header-file src="src/ios/UIWebViewExtension.h" />
-        <source-file src="src/ios/UIWebViewExtension.m" />
-    </platform>-->
+    <config-file parent="/*" target="config.xml">
+      <feature name="CordovaGigya">
+        <param name="ios-package" value="CordovaGigya" />
+      </feature>
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+      <array>
+        <dict>
+          <key>CFBundleTypeRole</key>
+          <string>Editor</string>
+          <key>CFBundleURLName</key>
+          <string>$PACKAGE_NAME</string>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>$PACKAGE_NAME</string>
+          </array>
+        </dict>
+      </array>
+    </config-file>
+
+    <source-file src="src/ios/CordovaGigya.m" />
+    <framework src="src/ios/GigyaSDK.framework" custom="true"/>
+
+  </platform>
 
 </plugin>
