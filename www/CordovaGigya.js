@@ -1,45 +1,50 @@
 var argscheck = require('cordova/argscheck'),
-    utils = require('cordova/utils'),
-    exec = require('cordova/exec');
+utils = require('cordova/utils'),
+exec = require('cordova/exec');
 
-var Gigya = function() {
+module.exports = {
+
+  initialize: function(api_key) {
+    exec(null,
+         null,
+         "CordovaGigya",
+         "initialize",
+         [api_key]);
+  },
+
+  showLoginUI: function(success, failure) {
+    exec(success || function() {},
+         failure || function() {},
+         "CordovaGigya",
+         "showLoginUI",
+         []);
+  },
+
+
+  getSession: function(success, failure) {
+    exec(success || function() {},
+         failure || function() {},
+         "CordovaGigya",
+         "getSession",
+         []);
+  },
+
+
+  getUserInfo: function(success, failure) {
+    exec(success || function() {},
+         failure || function() {},
+         "CordovaGigya",
+         "getUserInfo",
+         []);
+  },
+
+
+  logout: function(success, failure) {
+    exec(success || function() {},
+         failure || function() {},
+         "CordovaGigya",
+         "logout",
+         []);
+  }
+
 };
-
-
-Gigya.initialize = function(api_key) {
- exec(null, null, "CordovaGigya", "initialize", [api_key]);
-};
-
-Gigya.showLoginUI = function() {
- exec(success, error, "CordovaGigya", "showLoginUI", []);
-};
-
-Gigya.getSession = function() {
- exec(null, null, "CordovaGigya", "getSession", []);
-};
-
-Gigya.getUserInfo = function() {
- exec(user, null, "CordovaGigya", "getUserInfo", []);
-};
-
-Gigya.logout = function() {
- exec(null, null, "CordovaGigya", "logout", []);
-};
-
-
-
-module.exports = Gigya;
-
-
-function success(user){
-  console.log(JSON.parse(user));
-}
-
-
-function error(message){
-  console.log(message);
-}
-
-function user(user){
-  console.log(JSON.parse(user));
-}
