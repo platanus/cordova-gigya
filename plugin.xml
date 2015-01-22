@@ -56,6 +56,9 @@
   <!-- ios -->
   <platform name="ios">
 
+    <preference name="FB_APP_ID" />
+    <preference name="FB_APP_NAME" />
+
     <config-file parent="/*" target="config.xml">
       <feature name="CordovaGigya">
         <param name="ios-package" value="CordovaGigya" />
@@ -74,12 +77,26 @@
             <string>$PACKAGE_NAME</string>
           </array>
         </dict>
+        <dict>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>fb$FB_APP_ID</string>
+          </array>
+        </dict>
       </array>
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="FacebookAppID">
+      <string>$FB_APP_ID</string>
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="FacebookDisplayName">
+      <string>$FB_APP_NAME</string>
     </config-file>
 
     <source-file src="src/ios/CordovaGigya.m" />
     <framework src="src/ios/GigyaSDK.framework" custom="true"/>
-
+    <framework src="../../FacebookSDK.framework" custom="true"/>
   </platform>
 
 </plugin>

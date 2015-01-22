@@ -12,10 +12,17 @@ In iOS is mandatory to use the native Facebook integration, for that we need to 
 
 Download the latest [FacebookSDK](https://developers.facebook.com/docs/ios/), and follow the [getting started guideline](https://developers.facebook.com/docs/ios/getting-started/). 
 
+Copy the facebook framework to your project folder
+```shell
+cd my_project
+cp -R ~/Documents/FacebookSDK/FacebookSDK.framework . 
+# This is the default location
+```
+
 ## Installing the plugin
 To add this plugin just type:
 ```
-cordova plugin add https://github.com/platanus/cordova-gigya
+cordova plugin add https://github.com/platanus/cordova-gigya --variable FB_APP_NAME=<facebook app name> --variable FB_APP_ID=<facebook app id>
 ```
 
 ## To remove this plugin type:
