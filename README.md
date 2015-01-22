@@ -51,4 +51,4 @@ cordova-gigya is maintained by [platanus](http://platan.us).
 
 ## License
 
-Guides is © 2014 platanus, spa. It is free software and may be redistributed under the terms specified in the LICENSE file.
+Apache License Version 2.0.
