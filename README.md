@@ -61,6 +61,7 @@ Displays a provider selection dialog, allowing the user to login to any of the s
 
 ###### Parameters
 
+- **providers** (array): *optional* An array of providers name strings that should be displayed on the UI. The list also defines the order in which the icons will be presented. 
 - **successCallback** (function): Called with user info data
 - **failureCallback** (function): Called with error message
 
@@ -68,6 +69,7 @@ Displays a provider selection dialog, allowing the user to login to any of the s
 
 ```js
 cordova.plugins.CordovaGigya.showLoginUI(
+    ['twitter', 'facebook']
     function(user){
         console.log(user);
     },

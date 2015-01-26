@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -39,8 +40,20 @@ public class CordovaGigya extends CordovaPlugin {
         }
         else if ("showLoginUI".equals(action)) {
 
+            // Prepare params object
+            GSObject params = null;
+
+            // Get the providers
+            JSONArray providers = args.optJSONArray(0);
+
+            // Providers
+            if(providers != null &&  providers.length() > 0){
+                params = new GSObject();
+                params.put("enabledProviders", providers.join(",").replace("\"", ""));
+            }
+
             // Present the Login user interface.
-            GSAPI.getInstance().showLoginUI(null, new GSLoginUIListener() {
+            GSAPI.getInstance().showLoginUI(params, new GSLoginUIListener() {
                 @Override
                 public void onLoad(Object context) {
                     Log.d(TAG, "Gigya loginUI was loaded");

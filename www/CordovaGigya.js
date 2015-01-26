@@ -12,12 +12,12 @@ module.exports = {
          [api_key]);
   },
 
-  showLoginUI: function(success, failure) {
+  showLoginUI: function(providers, success, failure) {
     exec(success || function() {},
          failure || function() {},
          "CordovaGigya",
          "showLoginUI",
-         []);
+         [providers]);
   },
 
 

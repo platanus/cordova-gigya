@@ -46,9 +46,17 @@
 
 - (void)showLoginUI:(CDVInvokedUrlCommand*)command
 {
+    NSArray* providers;
+
+    if([command.arguments objectAtIndex:0] != [NSNull null]){
+        providers = [command.arguments objectAtIndex:0];
+    }
+    else {
+        providers = @[];
+    }
 
     [Gigya showLoginProvidersDialogOver:super.viewController
-        providers:@[@"facebook", @"twitter", @"googleplus"]
+        providers:providers
         parameters:nil
         completionHandler:^(GSUser *user, NSError *error) {
             CDVPluginResult* pluginResult = nil;
