@@ -40,6 +40,103 @@ The plugin has the following methods:
 * [getUserInfo](#getUserInfo)
 * [getSession](#getSession)
 
+***
+
+
+### initialize
+Initializes the Gigya SDK and sets your partner API key.
+
+###### Parameters
+
+- **api_key** (string): The Gigya Site api key
+
+###### Example
+
+```js
+cordova.plugins.CordovaGigya.initialize(apiKey)
+```
+
+### showLoginUI
+Displays a provider selection dialog, allowing the user to login to any of the supported providers.
+
+###### Parameters
+
+- **successCallback** (function): Called with user info data
+- **failureCallback** (function): Called with error message
+
+###### Example
+
+```js
+cordova.plugins.CordovaGigya.showLoginUI(
+    function(user){
+        console.log(user);
+    },
+    function(error){
+        console.log(error)
+    })
+```
+
+### logout
+Logs out from Gigya and clears the saved session.
+
+###### Parameters
+
+- **successCallback** (function): Called after logged out
+- **failureCallback** (function): *(IOS only)* Called with error message
+
+###### Example
+
+```js
+cordova.plugins.CordovaGigya.logout(
+    function(){
+        console.log("logged out");
+    },
+    function(error){
+        console.log("ios error");
+        console.log(error);
+    })
+```
+
+### getUserInfo
+This method retrieves extended information regarding a user.
+
+###### Parameters
+
+- **successCallback** (function): Called with user info data
+- **failureCallback** (function): Called with error message
+
+###### Example
+
+```js
+cordova.plugins.CordovaGigya.showLoginUI(
+    function(user){
+        console.log(user);
+    },
+    function(error){
+        console.log(error)
+    })
+```
+
+### getSession
+Retrieves the current session.
+
+###### Parameters
+
+- **successCallback** (function): Called with session token
+- **failureCallback** (function): Called when error
+
+###### Example
+
+```js
+cordova.plugins.CordovaGigya.showLoginUI(
+    function(token){
+        console.log(token);
+    },
+    function(){
+        console.log()
+    })
+```
+
 ## Contributing
 
 1. Fork it
