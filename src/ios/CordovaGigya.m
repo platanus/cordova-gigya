@@ -3,6 +3,7 @@
 #import <Cordova/CDV.h>
 #import <GigyaSDK/Gigya.h>
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 @interface CordovaGigya : CDVPlugin {
 // Member variables go here.
@@ -63,8 +64,10 @@
 
             if (!error) {
                 NSString* userString = [user JSONString];
+                NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary* userDictionay = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
 
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:userString];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionay];
             }
             else {
                 // Handle error
@@ -105,8 +108,10 @@
 
         if (!error) {
             NSString* responseString = [response JSONString];
+            NSData* responseData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary* responseDictionay = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
 
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseString];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:responseDictionay];
         }
         else {
             // Handle error

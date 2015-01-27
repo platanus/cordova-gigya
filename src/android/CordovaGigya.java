@@ -73,7 +73,14 @@ public class CordovaGigya extends CordovaPlugin {
                 @Override
                 public void onLogin(String provider, GSObject user, Object context) {
                     Log.d(TAG, "Gigya loginUI has logged in");
-                    callbackContext.success(user.toJsonString());
+                    JSONObject data = null;
+                    try {
+                        data = new JSONObject(user.toJsonString());
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    callbackContext.success(data);
                 }
             }, null);
 
@@ -92,7 +99,14 @@ public class CordovaGigya extends CordovaPlugin {
                 @Override
                 public void onGSResponse(String method, GSResponse response, Object context) {
                     if (response.getErrorCode() == 0) {
-                        callbackContext.success(response.getData().toJsonString());
+                        JSONObject data = null;
+                        try {
+                            data = new JSONObject(response.getData().toJsonString());
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        callbackContext.success(data);
                     } else {
                         callbackContext.error(response.getErrorCode());
                     }
