@@ -100,9 +100,20 @@
 
 }
 
-- (void)getUserInfo:(CDVInvokedUrlCommand*)command
+- (void)sendRequest:(CDVInvokedUrlCommand*)command
 {
-    GSRequest *request = [GSRequest requestForMethod:@"socialize.getUserInfo"];
+    NSString* requestMethod = [command.arguments objectAtIndex:0];
+
+    GSRequest* request;
+
+    if([command.arguments objectAtIndex:1] != [NSNull null]){
+        NSDictionary* requestParams = [command.arguments objectAtIndex:1];
+        request = [GSRequest requestForMethod:requestMethod parameters:requestParams];
+    }
+    else{
+        request = [GSRequest requestForMethod:requestMethod];
+    }
+
     [request sendWithResponseHandler:^(GSResponse *response, NSError *error) {
         CDVPluginResult* pluginResult = nil;
 
@@ -116,7 +127,9 @@
         else {
             // Handle error
             NSLog(@"Request error: %@", error);
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+            NSDictionary* userInfo = [error userInfo];
+
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userInfo];
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];

@@ -99,18 +99,24 @@ cordova.plugins.CordovaGigya.logout(
     })
 ```
 
-### getUserInfo
-This method retrieves extended information regarding a user.
+### sendRequest
+Sends a request to Gigya server. This method is used for invoking any of the methods supported by [Gigya's REST API][gigya-api].
 
 ###### Parameters
 
-- **successCallback** (function): Called with user info data
+- **method** (string): Name of the method to be called
+- **params** (object): *optional* Optional parameters for methods that require them
+- **successCallback** (function): Called with request response
 - **failureCallback** (function): Called with error message
 
 ###### Example
 
 ```js
 cordova.plugins.CordovaGigya.showLoginUI(
+    "socialize.getSessionInfo",
+    {
+        provider: "twitter"
+    }
     function(user){
         console.log(user);
     },
@@ -118,6 +124,8 @@ cordova.plugins.CordovaGigya.showLoginUI(
         console.log(error)
     })
 ```
+
+[gigya-api]: http://wiki.gigya.com/030_API_reference/020_REST_API
 
 ### getSession
 Retrieves the current session.

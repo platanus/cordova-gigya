@@ -93,9 +93,23 @@ public class CordovaGigya extends CordovaPlugin {
 
             return true;
         }
-        else if ("getUserInfo".equals(action)){
+        else if ("sendRequest".equals(action)){
 
-            GSAPI.getInstance().sendRequest("socialize.getUserInfo", null, new GSResponseListener() {
+            String method = args.getString(0);
+            JSONObject paramsJSON = args.optJSONObject(1);
+
+            GSObject params = null;
+
+            if(paramsJSON != null){
+                try {
+                    params = new GSObject(paramsJSON.toString());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+            GSAPI.getInstance().sendRequest(method, params, new GSResponseListener() {
                 @Override
                 public void onGSResponse(String method, GSResponse response, Object context) {
                     if (response.getErrorCode() == 0) {
@@ -108,7 +122,7 @@ public class CordovaGigya extends CordovaPlugin {
                         }
                         callbackContext.success(data);
                     } else {
-                        callbackContext.error(response.getErrorCode());
+                        callbackContext.error(response.getErrorDetails());
                     }
                 }
             }, null);

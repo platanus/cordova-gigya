@@ -30,12 +30,12 @@ module.exports = {
   },
 
 
-  getUserInfo: function(success, failure) {
+  sendRequest: function(method, params, success, failure) {
     exec(success || function() {},
          failure || function() {},
          "CordovaGigya",
-         "getUserInfo",
-         []);
+         "sendRequest",
+         [method, params]);
   },
 
 
