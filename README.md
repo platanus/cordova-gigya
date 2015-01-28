@@ -8,9 +8,9 @@ Project uses mobile native Gigya SDK for iOS and Androidplat to utilize basic op
 ## Prerequisites
 
 ### iOS
-In iOS is mandatory to use the native Facebook integration, for that we need to use the FacebookSDK.
+Is mandatory to use the native Facebook integration, for that we need to use the FacebookSDK.
 
-Download the latest [FacebookSDK](https://developers.facebook.com/docs/ios/), and follow the [getting started guideline](https://developers.facebook.com/docs/ios/getting-started/). 
+Download the latest iOS [FacebookSDK](https://developers.facebook.com/docs/ios/), and follow the [getting started guideline](https://developers.facebook.com/docs/ios/getting-started/). 
 
 Copy the facebook framework to your project folder
 ```shell
@@ -18,6 +18,17 @@ cd my_project
 cp -R ~/Documents/FacebookSDK/FacebookSDK.framework . 
 # This is the default location
 ```
+
+### Android
+Is mandatory to use the native Facebook integration, for that we need to use the FacebookSDK.
+
+1. Download and extract the latest Facebook SDK for Android, available at https://developers.facebook.com/docs/android
+1. Import the "facebook" folder from the downloaded SDK into your Eclipse workspace.
+1. Under the project properties, navigate to the "Android" tab.
+1. In the lower part of the dialog box, click "Add" and choose the "FacebookSDK" project from the workspace.
+1. If your project already has a copy of android-support-v4.jar, remove one of the copies (either from the Facebook project or from your app's project).
+
+For more info go to the [getting started guideline](https://developers.facebook.com/docs/android/getting-started/). 
 
 ## Installing the plugin
 To add this plugin just type:
