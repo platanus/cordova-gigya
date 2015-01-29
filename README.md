@@ -49,7 +49,7 @@ The plugin has the following methods:
 * [showLoginUI](#showLoginUI)
 * [login](#login)
 * [logout](#logout)
-* [getUserInfo](#getUserInfo)
+* [sendRequest](#sendRequest)
 * [getSession](#getSession)
 
 ***
@@ -148,11 +148,11 @@ Sends a request to Gigya server. This method is used for invoking any of the met
 ###### Example
 
 ```js
-cordova.plugins.CordovaGigya.showLoginUI(
+cordova.plugins.CordovaGigya.sendRequest(
     "socialize.getSessionInfo",
     {
         provider: "twitter"
-    }
+    },
     function(user){
         console.log(user);
     },
