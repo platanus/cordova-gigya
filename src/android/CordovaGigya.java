@@ -24,7 +24,6 @@ import com.gigya.socialize.android.event.GSSocializeEventListener;
 
 public class CordovaGigya extends CordovaPlugin {
 
-    private static final String GIGYA_API_KEY = "3_UeTmNrbx3Lr2j32fV6xLYlEIcPDc4fG6N8j2WbuMZgcxW_sZCJOb4hcS89zwAIR_";
     private static final String TAG = "CordovaGigya";
 
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
