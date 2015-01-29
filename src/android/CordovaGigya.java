@@ -85,8 +85,62 @@ public class CordovaGigya extends CordovaPlugin {
             }, null);
 
             return true;
-        }
-        else if ("getSession".equals(action)) {
+        } else if ("login".equals(action)) {
+
+            // Get the providers
+            String provider = args.optString(0);
+
+            // options
+            JSONObject paramsJSON = args.optJSONObject(1);
+
+            // Prepare params object
+            GSObject params = null;
+
+            if(paramsJSON != null){
+                try {
+                    params = new GSObject(paramsJSON.toString());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            else {
+                params = new GSObject();
+            }
+
+            // Provider
+            if (provider != null && provider != "") {
+                params.put("provider", provider);
+            }
+
+            // Present the Login user interface.
+            try {
+                GSAPI.getInstance().login(params, new GSResponseListener() {
+                    @Override
+                    public void onGSResponse(String method,
+                            GSResponse response, Object context) {
+                        if (response.getErrorCode() == 0) {
+                            JSONObject data = null;
+                            try {
+                                data = new JSONObject(response.getData()
+                                        .toJsonString());
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            callbackContext.success(data);
+                        } else {
+                            callbackContext.error(response.getErrorDetails());
+                        }
+                    }
+                }, null);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return true;
+        } else if ("getSession".equals(action)) {
 
             GSSession session = GSAPI.getInstance().getSession();
             callbackContext.success(session.toString());

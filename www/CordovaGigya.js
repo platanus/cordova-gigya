@@ -20,6 +20,13 @@ module.exports = {
          [providers]);
   },
 
+  login: function(provider, params, success, failure) {
+    exec(success || function() {},
+         failure || function() {},
+         "CordovaGigya",
+         "login",
+         [provider, params]);
+  },
 
   getSession: function(success, failure) {
     exec(success || function() {},

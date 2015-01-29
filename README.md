@@ -47,6 +47,7 @@ The plugin has the following methods:
 
 * [initialize](#initialize)
 * [showLoginUI](#showLoginUI)
+* [login](#login)
 * [logout](#logout)
 * [getUserInfo](#getUserInfo)
 * [getSession](#getSession)
@@ -81,6 +82,30 @@ Displays a provider selection dialog, allowing the user to login to any of the s
 ```js
 cordova.plugins.CordovaGigya.showLoginUI(
     ['twitter', 'facebook']
+    function(user){
+        console.log(user);
+    },
+    function(error){
+        console.log(error)
+    })
+```
+
+### login
+Login the user to a specified provider.
+
+###### Parameters
+
+- **provider** (string): the provider's name that will be used for authenticating the user, e.g. "facebook", "twitter", etc.
+- **params** (object): *optional* login optional parameters, refer to the gigya native sdk reference to get the posible values.
+- **successCallback** (function): Called with user info data
+- **failureCallback** (function): Called with error message
+
+###### Example
+
+```js
+cordova.plugins.CordovaGigya.login(
+    "twitter", 
+    null,
     function(user){
         console.log(user);
     },

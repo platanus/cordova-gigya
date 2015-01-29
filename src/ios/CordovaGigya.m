@@ -81,6 +81,39 @@
 
 }
 
+- (void)login:(CDVInvokedUrlCommand*)command
+{
+    NSString* provider = [command.arguments objectAtIndex:0];
+
+    NSDictionary* loginParams = nil;
+
+    if([command.arguments objectAtIndex:1] != [NSNull null]){
+        loginParams = [command.arguments objectAtIndex:1];
+    }
+
+    [Gigya loginToProvider:provider
+                parameters:loginParams
+                      over:super.viewController
+         completionHandler:^(GSUser *user, NSError *error) {
+             CDVPluginResult* pluginResult = nil;
+
+             if (!error) {
+                 NSString* userString = [user JSONString];
+                 NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
+                 NSDictionary* userDictionay = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
+
+                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionay];
+             }
+             else {
+                 // Handle error
+                 NSLog(@"Login error: %@", error);
+                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+             }
+             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+
+         }];
+}
+
 - (void)getSession:(CDVInvokedUrlCommand*)command
 {
 
