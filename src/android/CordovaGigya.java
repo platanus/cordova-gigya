@@ -40,15 +40,29 @@ public class CordovaGigya extends CordovaPlugin {
         }
         else if ("showLoginUI".equals(action)) {
 
-            // Prepare params object
-            GSObject params = null;
-
             // Get the providers
             JSONArray providers = args.optJSONArray(0);
 
+            // options
+            JSONObject paramsJSON = args.optJSONObject(1);
+
+            // Prepare params object
+            GSObject params = null;
+
+            if(paramsJSON != null){
+                try {
+                    params = new GSObject(paramsJSON.toString());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            else {
+                params = new GSObject();
+            }
+
             // Providers
             if(providers != null &&  providers.length() > 0){
-                params = new GSObject();
                 params.put("enabledProviders", providers.join(",").replace("\"", ""));
             }
 

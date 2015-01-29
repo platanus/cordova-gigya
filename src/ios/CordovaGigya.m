@@ -56,9 +56,15 @@
         providers = @[];
     }
 
+    NSDictionary* loginParams = nil;
+
+    if([command.arguments objectAtIndex:1] != [NSNull null]){
+        loginParams = [command.arguments objectAtIndex:1];
+    }
+
     [Gigya showLoginProvidersDialogOver:super.viewController
         providers:providers
-        parameters:nil
+        parameters:loginParams
         completionHandler:^(GSUser *user, NSError *error) {
             CDVPluginResult* pluginResult = nil;
 
