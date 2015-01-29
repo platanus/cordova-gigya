@@ -46,11 +46,11 @@ cordova plugin remove us.platan.gigya
 The plugin has the following methods:
 
 * [initialize](#initialize)
-* [showLoginUI](#showLoginUI)
+* [showLoginUI](#showloginui)
 * [login](#login)
 * [logout](#logout)
-* [sendRequest](#sendRequest)
-* [getSession](#getSession)
+* [sendRequest](#sendrequest)
+* [getSession](#getsession)
 
 ***
 
