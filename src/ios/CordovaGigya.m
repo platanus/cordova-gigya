@@ -78,7 +78,9 @@
             else {
                 // Handle error
                 NSLog(@"Login error: %@", error);
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+                NSDictionary* userInfo = [error userInfo];
+
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userInfo];
             }
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
@@ -113,7 +115,9 @@
              else {
                  // Handle error
                  NSLog(@"Login error: %@", error);
-                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+                 NSDictionary* userInfo = [error userInfo];
+
+                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userInfo];
              }
              [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
@@ -186,7 +190,9 @@
         }
         else {
             NSLog(@"Logout error: %@", error);
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+            NSDictionary* userInfo = [error userInfo];
+
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userInfo];
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
