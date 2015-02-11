@@ -76,7 +76,7 @@ Displays a provider selection dialog, allowing the user to login to any of the s
 - **providers** (array): *optional* An array of providers name strings that should be displayed on the UI. The list also defines the order in which the icons will be presented. 
 - **params** (object): *optional* login optional parameters, refer to the gigya native sdk reference to get the posible values.
 - **successCallback** (function): Called with user info data
-- **failureCallback** (function): Called with error message
+- **failureCallback** (function): Called with [error](#error) message
 
 ###### Example
 
@@ -102,7 +102,7 @@ Login the user to a specified provider.
 - **provider** (string): the provider's name that will be used for authenticating the user, e.g. "facebook", "twitter", etc.
 - **params** (object): *optional* login optional parameters, refer to the gigya native sdk reference to get the posible values.
 - **successCallback** (function): Called with user info data
-- **failureCallback** (function): Called with error message
+- **failureCallback** (function): Called with [error](#error) message
 
 ###### Example
 
@@ -147,7 +147,7 @@ Sends a request to Gigya server. This method is used for invoking any of the met
 - **method** (string): Name of the method to be called
 - **params** (object): *optional* Optional parameters for methods that require them
 - **successCallback** (function): Called with request response
-- **failureCallback** (function): Called with error message
+- **failureCallback** (function): Called with [error](#error) message
 
 ###### Example
 
@@ -186,6 +186,32 @@ cordova.plugins.CordovaGigya.showLoginUI(
         console.log()
     })
 ```
+
+## Callbacks
+
+### error
+
+The object return on some failure callbacks.
+
+###### Model
+
+- **errorCode**: The error *Error code*, [Gigya Response Codes and Errors](http://developers.gigya.com/037_API_reference/zz_Response_Codes_and_Errors)
+- **errorMessage**: Short textual description of the response error.
+- **data**: response data
+
+###### Example
+
+```json
+{
+    "errorCode": 206002,
+    "errorMessage": "Account pending verification",
+    "data": {
+        "state": "",
+        "regToken": <token>
+    }
+}
+```
+
 
 ## Contributing
 

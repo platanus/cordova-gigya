@@ -78,9 +78,9 @@
             else {
                 // Handle error
                 NSLog(@"Login error: %@", error);
-                NSDictionary* userInfo = [error userInfo];
+                NSDictionary* errorData = [self getErrorData:error];
 
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userInfo];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:errorData];
             }
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
@@ -115,9 +115,9 @@
              else {
                  // Handle error
                  NSLog(@"Login error: %@", error);
-                 NSDictionary* userInfo = [error userInfo];
 
-                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userInfo];
+                 NSDictionary* errorData = [self getErrorData:error];
+                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:errorData];
              }
              [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
@@ -170,9 +170,9 @@
         else {
             // Handle error
             NSLog(@"Request error: %@", error);
-            NSDictionary* userInfo = [error userInfo];
+            NSDictionary* errorData = [self getErrorData:error];
 
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userInfo];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:errorData];
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -196,6 +196,24 @@
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
+}
+
+- (NSDictionary*)getErrorData:(NSError*)error
+{
+    NSDictionary* userInfo = [error userInfo];
+
+    NSDictionary* data = @{
+       @"state": [NSString stringWithString:userInfo[@"state"]],
+       @"regToken": [NSString stringWithString:userInfo[@"regToken"]]
+    };
+
+    NSDictionary* errorData = @{
+        @"errorCode": [NSNumber numberWithInteger:error.code],
+        @"errorMessage": [NSString stringWithString:userInfo[@"NSLocalizedDescription"]],
+        @"data":  data
+    };
+
+    return errorData;
 }
 
 @end
