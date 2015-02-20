@@ -18,7 +18,7 @@
 {
     NSLog(@"Cordova Gigya Plugin Initialize");
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifiedOpenUrl:) name:@"CDVPluginHandleOpenURLNotification" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidBecomeActive:)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:)
         name:UIApplicationDidBecomeActiveNotification object:nil];
 
     [super pluginInitialize];
@@ -68,19 +68,18 @@
         completionHandler:^(GSUser *user, NSError *error) {
             CDVPluginResult* pluginResult = nil;
 
-            if (!error) {
-                NSString* userString = [user JSONString];
-                NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
-                NSDictionary* userDictionay = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
+            NSString* userString = [user JSONString];
+            NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary* userDictionary = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
 
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionay];
+            if (!error) {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionary];
             }
             else {
                 // Handle error
                 NSLog(@"Login error: %@", error);
-                NSDictionary* errorData = [self getErrorData:error];
 
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:errorData];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userDictionary];
             }
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
@@ -103,23 +102,21 @@
                 parameters:loginParams
                       over:super.viewController
          completionHandler:^(GSUser *user, NSError *error) {
-             CDVPluginResult* pluginResult = nil;
+            CDVPluginResult* pluginResult = nil;
 
-             if (!error) {
-                 NSString* userString = [user JSONString];
-                 NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
-                 NSDictionary* userDictionay = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
+            NSString* userString = [user JSONString];
+            NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary* userDictionary = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
+            if (!error) {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionary];
+            }
+            else {
+                // Handle error
+                NSLog(@"Login error: %@", error);
 
-                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionay];
-             }
-             else {
-                 // Handle error
-                 NSLog(@"Login error: %@", error);
-
-                 NSDictionary* errorData = [self getErrorData:error];
-                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:errorData];
-             }
-             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userDictionary];
+            }
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
          }];
 }
@@ -160,19 +157,17 @@
     [request sendWithResponseHandler:^(GSResponse *response, NSError *error) {
         CDVPluginResult* pluginResult = nil;
 
-        if (!error) {
-            NSString* responseString = [response JSONString];
-            NSData* responseData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-            NSDictionary* responseDictionay = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+        NSString* responseString = [response JSONString];
+        NSData* responseData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
 
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:responseDictionay];
+        if (!error) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:responseDictionary];
         }
         else {
             // Handle error
             NSLog(@"Request error: %@", error);
-            NSDictionary* errorData = [self getErrorData:error];
-
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:errorData];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:responseDictionary];
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -183,37 +178,20 @@
     [Gigya logoutWithCompletionHandler:^(GSResponse *response, NSError *error) {
         CDVPluginResult* pluginResult = nil;
 
-        if (!error) {
-            NSString* responseString = [response JSONString];
+        NSString* responseString = [response JSONString];
+        NSData* responseData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
 
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:responseString];
+        if (!error) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:responseDictionary];
         }
         else {
             NSLog(@"Logout error: %@", error);
-            NSDictionary* userInfo = [error userInfo];
 
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userInfo];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:responseDictionary];
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
-}
-
-- (NSDictionary*)getErrorData:(NSError*)error
-{
-    NSDictionary* userInfo = [error userInfo];
-
-    NSDictionary* data = @{
-       @"state": [NSString stringWithString:userInfo[@"state"]],
-       @"regToken": [NSString stringWithString:userInfo[@"regToken"]]
-    };
-
-    NSDictionary* errorData = @{
-        @"errorCode": [NSNumber numberWithInteger:error.code],
-        @"errorMessage": [NSString stringWithString:userInfo[@"NSLocalizedDescription"]],
-        @"data":  data
-    };
-
-    return errorData;
 }
 
 @end
