@@ -5,8 +5,8 @@
     <description>Gigya Plugin</description>
     <license>Apache 2.0</license>
     <keywords>Login,Gigya</keywords>
-    <repo>https://github.com/driftyco/ionic-plugins-keyboard.git</repo>
-    <issue>https://github.com/driftyco/ionic-plugins-keyboard/issues</issue>
+    <repo>https://github.com/platanus/cordova-gigya.git</repo>
+    <issue>https://github.com/platanus/cordova-gigya/issues</issue>
 
   <js-module name="CordovaGigya" src="www/CordovaGigya.js">
     <clobbers target="cordova.plugins.CordovaGigya" />
