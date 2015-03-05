@@ -69,7 +69,8 @@ public class CordovaGigya extends CordovaPlugin {
                 @Override
                 public void onError(GSResponse response, Object context) {
                     Log.d(TAG, "Gigya loginUI had an error - " + response.getErrorMessage());
-                    callbackError(response, callbackContext);
+                    JSONObject data = getData(response);
+                    callbackContext.error(data);
                 }
 
                 @Override
@@ -80,7 +81,8 @@ public class CordovaGigya extends CordovaPlugin {
                 @Override
                 public void onLogin(String provider, GSObject user, Object context) {
                     Log.d(TAG, "Gigya loginUI has logged in");
-                    callbackSuccess(user, callbackContext);
+                    JSONObject data = getData(user);
+                    callbackContext.success(data);
                 }
             }, null);
 
@@ -118,10 +120,11 @@ public class CordovaGigya extends CordovaPlugin {
                 GSAPI.getInstance().login(params, new GSResponseListener() {
                     @Override
                     public void onGSResponse(String method, GSResponse response, Object context) {
+                        JSONObject data = getData(response);
                         if (response.getErrorCode() == 0) {
-                            callbackSuccess(response, callbackContext);
+                            callbackContext.success(data);
                         } else {
-                            callbackError(response, callbackContext);
+                            callbackContext.error(data);
                         }
                     }
                 }, null);
@@ -157,10 +160,11 @@ public class CordovaGigya extends CordovaPlugin {
             GSAPI.getInstance().sendRequest(method, params, new GSResponseListener() {
                 @Override
                 public void onGSResponse(String method, GSResponse response, Object context) {
+                    JSONObject data = getData(response);
                     if (response.getErrorCode() == 0) {
-                        callbackSuccess(response, callbackContext);
+                        callbackContext.success(data);
                     } else {
-                        callbackError(response, callbackContext);
+                        callbackContext.error(data);
                     }
                 }
             }, null);
@@ -177,21 +181,21 @@ public class CordovaGigya extends CordovaPlugin {
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 
-
-    private void callbackSuccess(GSResponse response, CallbackContext callbackContext){
+    private JSONObject getData(GSResponse response){
         JSONObject data = null;
         try {
-            data = new JSONObject(response.getData()
-                    .toJsonString());
+            data = new JSONObject(response.getData().toJsonString());
+            data.put("errorDetails", response.getErrorDetails());
+            data.put("errorCode", response.getErrorCode());
+            data.put("errorMessage", response.getErrorMessage());
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        callbackContext.success(data);
+        return data;
     }
 
-    private void callbackSuccess(GSObject response, CallbackContext callbackContext){
+    private JSONObject getData(GSObject response){
         JSONObject data = null;
         try {
             data = new JSONObject(response.toJsonString());
@@ -199,23 +203,6 @@ public class CordovaGigya extends CordovaPlugin {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        callbackContext.success(data);
-    }
-
-    private void callbackError(GSResponse response, CallbackContext callbackContext){
-        JSONObject data = null;
-        try {
-            data = new JSONObject();
-            data.put("errorCode", response.getErrorCode());
-            data.put("errorMessage", response.getErrorMessage());
-            data.put("errorDetails", response.getErrorDetails());
-            data.put("data", new JSONObject(response.getData().toJsonString()));
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        callbackContext.error(data);
+        return data;
     }
 }
