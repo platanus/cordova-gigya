@@ -104,17 +104,27 @@
          completionHandler:^(GSUser *user, NSError *error) {
             CDVPluginResult* pluginResult = nil;
 
-            NSString* userString = [user JSONString];
-            NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
-            NSDictionary* userDictionary = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
+
             if (!error) {
+                NSString* userString = [user JSONString];
+                NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary* userDictionary = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionary];
             }
             else {
                 // Handle error
                 NSLog(@"Login error: %@", error);
 
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:userDictionary];
+                NSDictionary* userInfo = [error userInfo];
+
+                NSDictionary* data = @{
+                   @"state": [NSString stringWithString:userInfo[@"state"]],
+                   @"regToken": [NSString stringWithString:userInfo[@"regToken"]],
+                   @"errorCode": [NSNumber numberWithInteger:error.code],
+                   @"errorMessage": [NSString stringWithString:userInfo[@"NSLocalizedDescription"]]
+                };
+
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:data];
             }
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
