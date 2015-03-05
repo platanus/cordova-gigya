@@ -2,17 +2,12 @@ package us.platan.gigya;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaWebView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
 import android.util.Log;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 
 import com.gigya.socialize.GSObject;
 import com.gigya.socialize.GSResponse;
@@ -20,7 +15,6 @@ import com.gigya.socialize.GSResponseListener;
 import com.gigya.socialize.android.GSAPI;
 import com.gigya.socialize.android.GSSession;
 import com.gigya.socialize.android.event.GSLoginUIListener;
-import com.gigya.socialize.android.event.GSSocializeEventListener;
 
 public class CordovaGigya extends CordovaPlugin {
 
